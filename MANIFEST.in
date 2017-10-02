@@ -1,0 +1,4 @@
+include *.txt *.ini *.cfg *.rst
+recursive-include src *.jinja2 *.xml *.txt *.pt
+recursive-include src *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml *.jinja2
+recursive-include src *.pot *.po *.mo
