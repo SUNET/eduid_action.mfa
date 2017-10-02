@@ -31,4 +31,48 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
+from datetime import datetime
+from bson import ObjectId
+from copy import deepcopy
+from eduid_userdb.userdb import User
+from eduid_userdb.testing import MOCKED_USER_STANDARD
+from eduid_actions.testing import FunctionalTestCase
+
 __author__ = 'ft'
+
+_test_user_oid = ObjectId('012345678901234567890123')
+MFA_ACTION = {
+        '_id': ObjectId('234567890123456789012301'),
+        'user_oid': _test_user_oid,
+        'action': 'mfa',
+        'preference': 1,
+        'params': {}
+        }
+
+
+class MFAActionTests(FunctionalTestCase):
+
+    def setUp(self):
+        super(MFAActionTests, self).setUp()
+        user_data = deepcopy(MOCKED_USER_STANDARD)
+        user_data['modified_ts'] = datetime.utcnow()
+        self.amdb.save(User(data=user_data), check_sync=False)
+        self.test_user_id =  _test_user_oid
+
+    def tearDown(self):
+        self.amdb._drop_whole_collection()
+        super(MFAActionTests, self).tearDown()
+
+
+    def test_action_success(self):
+        self.actions_db.add_action(data=MFA_ACTION)
+        # token verification is disabled in the setUp
+        # method of FunctionalTestCase
+        url = ('/?userid={!s}&token=abc&nonce=sdf&'
+                'ts=1401093117'.format(self.test_user_id))
+        res = self.testapp.get(url)
+        self.assertEqual(res.status, '302 Found')
+        res = self.testapp.get(res.location)
+        res.mustcontain('Security Key')
+        form = res.forms['mfa-form']
+        self.assertEqual(self.actions_db.db_count(), 1)
