@@ -1,0 +1,21 @@
+{% extends "templates/base.jinja2" %}
+
+{% block contents %}
+
+<div class="row col-xs-12 center-block">
+    <div class="page-header col-xs-8 col-xs-offset-2">
+      <p class="lead"><strong>{{ _("You must push the button on your Security Key to log in") }}</strong></p>
+        {{ u2fdata|safe }}<p></p>
+        SLUT
+    </div>
+
+   <form method="POST" action="finishAuthentication" id="form">
+      <input type="hidden" name="tokenResponse" id="tokenResponse"/>
+  </form>
+</div>
+
+<span class="dataholder" id="u2f-data" data-u2fdata='{{ u2fdata|safe }}'></span>
+
+
+{% endblock %}
+

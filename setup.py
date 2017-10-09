@@ -35,6 +35,7 @@ am_extras = [
 actions_extras = [
     'eduid_actions>=0.0.1',
     'setuptools>=2.2',
+    'python-u2flib-server>=5.0.0',
 ]
 
 test_requires = [
