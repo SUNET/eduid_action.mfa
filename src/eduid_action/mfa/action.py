@@ -89,7 +89,7 @@ class MFAPlugin(ActionPlugin):
         u2f_tokens = []
         for this in user.credentials.filter(U2F).to_list():
             data = {'version': this.version,
-                    'keyHandle': "K26Td2lzlV-Me-y_Q2dRbcWQpL-evWA7pHLVIeCa-Gh4330UBGmbriSf4QgNs59vGjMpSrQkEAHh9UMdb97elw", #this.keyhandle,
+                    'keyHandle': this.keyhandle,
                     #'appId': APP_ID,
                     }
             u2f_tokens.append(data)
@@ -101,7 +101,10 @@ class MFAPlugin(ActionPlugin):
 
         u2fdata = json.dumps(u2fdata.data_for_client)
 
-        u2fdata = '{"challenge": "dWxv6M8r-N8bBE5aMm1fg7bankESIv2vuEveyQntAxg", "version": "U2F_V2", "keyHandle": "K26Td2lzlV-Me-y_Q2dRbcWQpL-evWA7pHLVIeCa-Gh4330UBGmbriSf4QgNs59vGjMpSrQkEAHh9UMdb97elw", "appId": "https://dev.eduid.se/u2f-app-id.json"}'
+        #u2fdata = JSON({"challenge": "dWxv6M8r-...",
+        #                "version": "U2F_V2",
+        #                "keyHandle": "K26Td2lzlV-...",
+        #                "appId": "https://dev.eduid.se/u2f-app-id.json"})
         logger.debug('U2F data: {!r}'.format(u2fdata))
 
         return 'u2f.jinja2', {'u2fdata': u2fdata}
