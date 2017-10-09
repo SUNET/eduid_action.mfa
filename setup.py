@@ -33,13 +33,13 @@ am_extras = [
 ]
 
 actions_extras = [
-    'eduid_actions>=0.0.1',
+    'eduid_actions>=0.1.0',
     'setuptools>=2.2',
     'python-u2flib-server>=5.0.0',
 ]
 
 test_requires = [
-    'eduid_actions>=0.0.1',
+    'eduid_actions>=0.1.0',
     'eduid_userdb>=0.3.0',
     'WebTest==2.0.15',
     'mock==1.0.1',
