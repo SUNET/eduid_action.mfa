@@ -43,6 +43,7 @@ test_requires = [
     'eduid_userdb>=0.3.0',
     'WebTest==2.0.15',
     'mock==1.0.1',
+    'python-u2flib-server>=5.0.0',
 ]
 
 
