@@ -30,13 +30,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 import json
-import os.path
 import pkg_resources
-from bson import ObjectId
-from datetime import datetime
-from pkg_resources import resource_filename
 from jinja2 import Environment, PackageLoader
-from pyramid.httpexceptions import HTTPInternalServerError
 from eduid_actions.action_abc import ActionPlugin
 from eduid_userdb import UserDB
 from eduid_userdb.credentials import U2F
@@ -85,6 +80,8 @@ class MFAPlugin(ActionPlugin):
         userid = action.user_id
         user = request.userdb.get_user_by_id(userid, raise_on_missing=False)
         logger.debug('Loaded User {} from db'.format(user))
+        if not user:
+            raise self.ActionError('User not found')
 
         u2f_tokens = []
         for this in user.credentials.filter(U2F).to_list():

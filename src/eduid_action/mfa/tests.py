@@ -35,6 +35,7 @@ from datetime import datetime
 from bson import ObjectId
 from copy import deepcopy
 from eduid_userdb.userdb import User
+from eduid_userdb.credentials import U2F
 from eduid_userdb.testing import MOCKED_USER_STANDARD
 from eduid_actions.testing import FunctionalTestCase
 
@@ -49,18 +50,28 @@ MFA_ACTION = {
         }
 
 
-class MFAActionTests(FunctionalTestCase):
+class MFAActionPluginTests(FunctionalTestCase):
 
     def setUp(self):
-        super(MFAActionTests, self).setUp()
+        super(MFAActionPluginTests, self).setUp()
         user_data = deepcopy(MOCKED_USER_STANDARD)
         user_data['modified_ts'] = datetime.utcnow()
-        self.amdb.save(User(data=user_data), check_sync=False)
+
+        user = User(data=user_data)
+        u2f = U2F(version='U2F_V2',
+                  app_id='test_app_id',
+                  keyhandle='test_key_handle',
+                  public_key='test_public_key',
+                  attest_cert='test_attest_cert',
+                  description='test_description',
+                  )
+        user.credentials.add(u2f)
+
+        self.amdb.save(user, check_sync=False)
 
     def tearDown(self):
         self.amdb._drop_whole_collection()
-        super(MFAActionTests, self).tearDown()
-
+        super(MFAActionPluginTests, self).tearDown()
 
     def test_action_success(self):
         self.actions_db.add_action(data=MFA_ACTION)
@@ -72,5 +83,4 @@ class MFAActionTests(FunctionalTestCase):
         self.assertEqual(res.status, '302 Found')
         res = self.testapp.get(res.location)
         res.mustcontain('Security Key')
-        form = res.forms['mfa-form']
         self.assertEqual(self.actions_db.db_count(), 1)
