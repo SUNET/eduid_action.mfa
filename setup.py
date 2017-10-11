@@ -1,11 +1,10 @@
-from setuptools import setup, find_packages
-import os
+from setuptools import setup
 import sys
 
 try:
     from babel.messages import frontend as babel
 except ImportError:
-    print "Babel is not installed, you can't localize this package"
+    print("Babel is not installed, you can't localize this package")
     cmdclass = {}
 else:
     cmdclass = {
@@ -18,7 +17,11 @@ else:
 
 version = '0.0.1'
 
-requires = []
+requires = [
+    'eduid_actions>=0.1.0',
+    'eduid_userdb>=0.3.0',
+    'python-u2flib-server>=5.0.0',
+]
 
 if sys.version_info[0] < 3:
     # Babel does not work with Python 3
@@ -29,21 +32,15 @@ idp_extras = [
 ]
 
 am_extras = [
-    'eduid_userdb>=0.3.0',
 ]
 
 actions_extras = [
-    'eduid_actions>=0.1.0',
     'setuptools>=2.2',
-    'python-u2flib-server>=5.0.0',
 ]
 
 test_requires = [
-    'eduid_actions>=0.1.0',
-    'eduid_userdb>=0.3.0',
     'WebTest==2.0.15',
     'mock==1.0.1',
-    'python-u2flib-server>=5.0.0',
 ]
 
 
