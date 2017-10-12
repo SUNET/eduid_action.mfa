@@ -61,14 +61,13 @@ class MFAPlugin(ActionPlugin):
         return cls.translations
 
     @classmethod
-    def includeme(self, config):
+    def includeme(cls, config):
         settings = config.registry.settings
 
         for item in ('u2f_app_id',
                      'u2f_valid_facets'):
-            if settings[item] is None:
-                raise ConfigurationError(
-                    'The {0} configuration option is required'.format(item))
+            if settings.get(item) is None:
+                logger.error('The "{}" configuration option is required'.format(item))
 
         userdb = UserDB(settings['mongo_uri'], 'eduid_am')
         config.registry.settings['userdb'] = userdb
