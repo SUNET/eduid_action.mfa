@@ -49,10 +49,11 @@ def add_mfa_actions(idp_app, user, ticket):
 
     :type idp_app: eduid_idp.idp.IdPApplication
     :type user: eduid_idp.idp_user.IdPUser
-    :type ticket: eduid_idp.login.SSOLoginData
+    :type ticket: eduid_idp.loginstate.SSOLoginData
 
     :return: None
     """
+    idp_app.logger.debug('FREDRIK: ADD MFA ACTIONS')
     u2f_tokens = user.credentials.filter(U2F).to_list()
     if not u2f_tokens:
         idp_app.logger.debug('User does not have any U2F tokens registered')
@@ -62,12 +63,46 @@ def add_mfa_actions(idp_app, user, ticket):
         idp_app.logger.warning('No actions_db - aborting MFA action')
         return None
 
-    if not idp_app.actions_db.has_actions(userid = str(user.user_id),
-                                          action_type = 'mfa',
-                                          params = {}):
-        idp_app.logger.debug('User must authenticate with U2F token (1/{})'.format(u2f_tokens.count))
-        idp_app.actions_db.add_action(
-            userid = user.user_id,
-            action_type = 'mfa',
-            preference = 1,   # XXX preference does not seem to be used? Assuming preference = 1 is highest.
-            params = {})
+    existing_actions = idp_app.actions_db.get_actions(userid = user.user_id,
+                                                      session = ticket.key,
+                                                      action_type = 'mfa',
+                                                      )
+    if existing_actions and len(existing_actions) > 0:
+        idp_app.logger.debug('User has existing MFA actions - checking them')
+        check_authn_result(idp_app, user, ticket, existing_actions)
+        return
+
+    idp_app.logger.debug('User must authenticate with U2F token (has {} token(s))'.format(len(u2f_tokens)))
+    idp_app.actions_db.add_action(
+        userid = user.user_id,
+        action_type = 'mfa',
+        preference = 1,
+        session = ticket.key,  # XXX double-check that ticket.key is not sensitive to disclose to the user
+        params = {})
+
+
+def check_authn_result(idp_app, user, ticket, actions):
+    """
+    The user returned to the IdP after being sent to actions. Check if actions has
+    added the results of authentication to the action in the database.
+
+    :param idp_app: IdP application instance
+    :param user: the authenticating user
+    :param ticket: the SSO login data
+    :param actions: Actions in the ActionDB matching this user and session
+
+    :type idp_app: eduid_idp.idp.IdPApplication
+    :type user: eduid_idp.idp_user.IdPUser
+    :type ticket: eduid_idp.loginstate.SSOLoginData
+    :type actions: list of eduid_userdb.actions.Action
+
+    :return: None
+    """
+    for this in actions:
+        if isinstance(this.result, dict):
+            idp_app.logger.debug('Action {} authn result: {}'.format(this, this.result))
+            if this.result.get('success', False):
+                idp_app.logger.debug('Removing successful MFA action')
+                idp_app.actions_db.remove_action_by_id(this.action_id)
+        else:
+            idp_app.logger.debug('Non-dict result on action {}'.format(this))

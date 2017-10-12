@@ -5,8 +5,19 @@
     <div class="page-header col-xs-8 col-xs-offset-2">
       <p class="lead"><strong>{{ _("You must push the button on your Security Key to log in") }}</strong></p>
     </div>
+   <form method="POST" action="#" id="form" class="form-inline">
 
-   <form method="POST" action="finishAuthentication" id="form">
+       {%  if testing %}
+       <div id="tou-form-buttons" class="form-group">
+           <div class="input-group">
+               <div class="col-xs-12 col-sm-6">
+                   <input class="btn btn-success" type="submit" name="accept" id="accept"
+                          value="{{ _('Fake authn while testing') }}">
+               </div>
+           </div>
+       </div>
+       {% endif %}
+
       <input type="hidden" name="tokenResponse" id="tokenResponse"/>
   </form>
 </div>
@@ -15,6 +26,8 @@
 {% endblock %}
 
 {% block extrajs %}
-    <script src="{{'eduid_actions:static/js/u2f-api.js'|static_url}}"></script>
-    <script src="{{'eduid_actions:static/js/actions-u2f.js'|static_url}}"></script>
+    {%  if not testing %}
+      <script src="{{'eduid_actions:static/js/u2f-api.js'|static_url}}"></script>
+      <script src="{{'eduid_actions:static/js/actions-u2f.js'|static_url}}"></script>
+    {% endif %}
 {% endblock %}
