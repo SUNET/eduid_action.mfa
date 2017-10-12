@@ -32,7 +32,6 @@
 import json
 import pkg_resources
 from jinja2 import Environment, PackageLoader
-from eduid_am.config import read_setting_from_env
 from eduid_actions.action_abc import ActionPlugin
 from eduid_userdb import UserDB
 from eduid_userdb.credentials import U2F
@@ -65,11 +64,8 @@ class MFAPlugin(ActionPlugin):
     def includeme(self, config):
         settings = config.registry.settings
 
-        settings['mfa_testing'] = read_setting_from_env(settings, 'mfa_testing', False)
-
         for item in ('u2f_app_id',
                      'u2f_valid_facets'):
-            settings[item] = read_setting_from_env(settings, item, None)
             if settings[item] is None:
                 raise ConfigurationError(
                     'The {0} configuration option is required'.format(item))
