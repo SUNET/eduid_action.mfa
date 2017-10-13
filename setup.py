@@ -15,7 +15,7 @@ else:
     }
 
 
-version = '0.0.1'
+version = '0.0.2'
 
 requires = [
     'eduid_actions>=0.1.0',
