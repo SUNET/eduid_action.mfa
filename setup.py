@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 import sys
 
 try:
@@ -68,7 +68,7 @@ setup(name='eduid_action.mfa',
       author_email='fredrik@thulin.net',
       url='https://github.com/SUNET/',
       license='bsd',
-      packages=['eduid_action.mfa'],
+      packages=find_packages(),
       package_dir = {'': 'src'},
       namespace_packages=['eduid_action'],
       include_package_data=True,
