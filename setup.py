@@ -15,7 +15,7 @@ else:
     }
 
 
-version = '0.0.2'
+version = '0.0.3'
 
 requires = [
     'eduid_actions>=0.1.0',
@@ -68,7 +68,7 @@ setup(name='eduid_action.mfa',
       author_email='fredrik@thulin.net',
       url='https://github.com/SUNET/',
       license='bsd',
-      packages=['eduid_action', 'eduid_action.mfa'],
+      packages=['eduid_action.mfa'],
       package_dir = {'': 'src'},
       namespace_packages=['eduid_action'],
       include_package_data=True,
