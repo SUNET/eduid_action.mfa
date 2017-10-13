@@ -21,6 +21,7 @@ requires = [
     'eduid_actions>=0.1.0',
     'eduid_userdb>=0.3.0',
     'python-u2flib-server>=5.0.0',
+    'setuptools>=2.2',
 ]
 
 if sys.version_info[0] < 3:
@@ -35,7 +36,6 @@ am_extras = [
 ]
 
 actions_extras = [
-    'setuptools>=2.2',
 ]
 
 test_requires = [
