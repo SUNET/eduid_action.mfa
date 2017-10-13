@@ -69,6 +69,8 @@ class MFAPlugin(ActionPlugin):
             if settings.get(item) is None:
                 logger.error('The "{}" configuration option is required'.format(item))
 
+        settings.setdefault('mfa_testing', 'false')
+
         userdb = UserDB(settings['mongo_uri'], 'eduid_am')
         config.registry.settings['userdb'] = userdb
         config.set_request_property(lambda x: x.registry.settings['userdb'], 'userdb', reify=True)
