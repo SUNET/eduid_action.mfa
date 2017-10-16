@@ -69,7 +69,7 @@ class MFAPlugin(ActionPlugin):
             if settings.get(item) is None:
                 logger.error('The "{}" configuration option is required'.format(item))
 
-        settings.setdefault('mfa_testing', 'false')
+        settings.setdefault('mfa_testing', False)
 
         userdb = UserDB(settings['mongo_uri'], 'eduid_am')
         config.registry.settings['userdb'] = userdb
@@ -111,6 +111,7 @@ class MFAPlugin(ActionPlugin):
         # XXX add CSRF token to this form
         params = {'u2fdata': json.dumps(challenge.data_for_client)}
         if settings['mfa_testing']:
+            logger.info('MFA test mode is enabled')
             params['testing'] = True
         return 'u2f.jinja2', params
 
