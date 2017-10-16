@@ -110,9 +110,11 @@ class MFAPlugin(ActionPlugin):
 
         # XXX add CSRF token to this form
         params = {'u2fdata': json.dumps(challenge.data_for_client)}
-        if settings['mfa_testing']:
+        if settings.get('mfa_testing', 'false') == 'true':
             logger.info('MFA test mode is enabled')
             params['testing'] = True
+        else:
+            params['testing'] = False
         return 'u2f.jinja2', params
 
     def perform_action(self, action, request):
