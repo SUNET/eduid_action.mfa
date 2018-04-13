@@ -3,7 +3,15 @@
 {% block contents %}
 <div class="row col-xs-12 center-block">
     <div class="page-header col-xs-8 col-xs-offset-2">
-      <p class="lead"><strong>{{ _("You must push the button on your Security Key to log in") }}</strong></p>
+      <div class="u2f-title">
+        <h2>{{ _("Two-factor authentication") }} </h2>
+      </div>
+      <div class="u2f-subtitle">
+        <h3>{{ _("Extra security enabled for this account") }}<h3>
+      </div>
+      <div>
+        <p class="lead"><strong>{{ _("Use your Security Key to log in. If it has a button, tap it.") }}</strong></p>
+      </div>
     </div>
    <form method="POST" action="#" id="form" class="form-inline">
 
