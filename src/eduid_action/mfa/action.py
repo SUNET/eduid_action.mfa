@@ -120,8 +120,8 @@ class MFAPlugin(ActionPlugin):
     def perform_action(self, action, request):
         settings = request.registry.settings
         _ = self.get_ugettext(request)
-        if settings['mfa_testing']:
-            logger.debug('Test mode is on, faking authentication')
+        if settings.get('mfa_testing', 'false') == 'true':
+            logger.debug('TEST MODE IS ON, FAKING AUTHENTICATION')
             action.result = {'success': True,
                              'testing': True,
                              }
