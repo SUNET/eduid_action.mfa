@@ -83,7 +83,7 @@ class MFAPlugin(ActionPlugin):
     def get_action_body_for_step(self, step_number, action, request, errors=None):
         settings = request.registry.settings
         lang = self.get_language(request)
-        _ = self.translations[lang].ugettext
+        params = {'_': self.translations[lang].ugettext}
         userid = action.user_id
         user = request.userdb.get_user_by_id(userid, raise_on_missing=False)
         logger.debug('Loaded User {} from db'.format(user))
@@ -109,7 +109,7 @@ class MFAPlugin(ActionPlugin):
         logger.debug('U2F challenge for user {}: {}'.format(user, challenge.data_for_client))
 
         # XXX add CSRF token to this form
-        params = {'u2fdata': json.dumps(challenge.data_for_client)}
+        params['u2fdata'] = json.dumps(challenge.data_for_client)
         if settings.get('mfa_testing', 'false') == 'true':
             logger.info('MFA test mode is enabled')
             params['testing'] = True

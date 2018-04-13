@@ -1,15 +1,15 @@
 # Translations template for eduid_action.mfa.
-# Copyright (C) 2017 ORGANIZATION
+# Copyright (C) 2018 ORGANIZATION
 # This file is distributed under the same license as the eduid_action.mfa
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: eduid_action.mfa 0.0.1\n"
+"Project-Id-Version: eduid_action.mfa 0.0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-29 15:56+0200\n"
+"POT-Creation-Date: 2018-04-13 11:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: src/eduid_action/mfa/action.py:81
-msgid "You must press the button on your Security Key to continue logging in"
+#: src/eduid_action/mfa/action.py:131
+msgid "No response from token, please retry login"
 msgstr ""
 
-#: src/eduid_action/mfa/templates/main.jinja2:4
-msgid "You must push the button on your Security Key to log in"
+#: src/eduid_action/mfa/action.py:159
+msgid "Unknown token used, please retry login"
 msgstr ""
 
-#: src/eduid_action/mfa/templates/main.jinja2:21
-msgid "accept"
+#: src/eduid_action/mfa/templates/u2f.jinja2:7
+msgid "2-step authentication"
 msgstr ""
 
-#: src/eduid_action/mfa/templates/main.jinja2:24
-msgid "reject"
+#: src/eduid_action/mfa/templates/u2f.jinja2:10
+msgid "This second step verifies it's really you who is logging in"
+msgstr ""
+
+#: src/eduid_action/mfa/templates/u2f.jinja2:13
+msgid ""
+"You must insert your security (U2F) key\n"
+"          into an USB port in your computer, and, if it has a button, you "
+"have\n"
+"          to tap it to log in"
+msgstr ""
+
+#: src/eduid_action/mfa/templates/u2f.jinja2:25
+msgid "Fake authn while testing"
 msgstr ""
 
