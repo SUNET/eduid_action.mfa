@@ -1,17 +1,17 @@
 # Swedish translations for eduid_action.mfa.
-# Copyright (C) 2017 ORGANIZATION
+# Copyright (C) 2018 ORGANIZATION
 # This file is distributed under the same license as the eduid_action.mfa
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: eduid_action.mfa 0.0.1\n"
+"Project-Id-Version: eduid_action.mfa 0.0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-13 13:25+0200\n"
-"PO-Revision-Date: 2017-09-29 15:31+0200\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2018-04-13 14:16+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Johan Lundberg <lundberg.johan@gmail.com>, 2018\n"
+"Language-Team: Swedish (https://www.transifex.com/sunet/teams/85542/sv/)\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,60 +20,27 @@ msgstr ""
 
 #: src/eduid_action/mfa/action.py:131
 msgid "No response from token, please retry login"
-msgstr ""
+msgstr "Inget svar från säkerhetsnyckeln, försök igen"
 
 #: src/eduid_action/mfa/action.py:159
 msgid "Unknown token used, please retry login"
-msgstr ""
+msgstr "Okänd säkerhetsnyckel, försök igen"
 
 #: src/eduid_action/mfa/templates/u2f.jinja2:7
 msgid "Two-factor authentication"
-msgstr ""
+msgstr "Tvåfaktorsautentisering"
 
 #: src/eduid_action/mfa/templates/u2f.jinja2:10
 msgid "Extra security enabled for this account"
-msgstr ""
+msgstr "Extra säkerhet påslagen för det här kontot"
 
 #: src/eduid_action/mfa/templates/u2f.jinja2:13
 msgid "Use your Security Key to log in. If it has a button, tap it."
 msgstr ""
+"Använd din säkerhetsnyckel för att logga in. Om den har en knapp, tryck "
+"på den."
 
 #: src/eduid_action/mfa/templates/u2f.jinja2:23
 msgid "Fake authn while testing"
 msgstr ""
-
-#~ msgid "You must press the button on your Security Key to continue logging in"
-#~ msgstr "Du måste trycka på knappen på din Security Key för att logga in"
-
-#~ msgid "You must push the button on your Security Key to log in"
-#~ msgstr "Du måste trycka på knappen på din Security Key för att logga in"
-
-#~ msgid "accept"
-#~ msgstr "Acceptera"
-
-#~ msgid "reject"
-#~ msgstr "Förkasta"
-
-#~ msgid "This second step verifies it's really you who is logging in SV"
-#~ msgstr ""
-
-#~ msgid "2-step authentication SSVV"
-#~ msgstr ""
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid "2-step authentication"
-#~ msgstr ""
-
-#~ msgid "This second step verifies it's really you who is logging in"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "You must insert your security (U2F) "
-#~ "key into an USB port in your "
-#~ "computer, and, if it has a button,"
-#~ " you have to tap it to log "
-#~ "in"
-#~ msgstr ""
 
