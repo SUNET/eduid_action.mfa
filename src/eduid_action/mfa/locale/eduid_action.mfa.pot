@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eduid_action.mfa 0.0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-13 11:18+0200\n"
+"POT-Creation-Date: 2018-04-13 13:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,13 +36,11 @@ msgstr ""
 
 #: src/eduid_action/mfa/templates/u2f.jinja2:13
 msgid ""
-"You must insert your security (U2F) key\n"
-"          into an USB port in your computer, and, if it has a button, you "
-"have\n"
-"          to tap it to log in"
+"You must insert your security (U2F) key into an USB port in your computer, "
+"and, if it has a button, you have to tap it to log in"
 msgstr ""
 
-#: src/eduid_action/mfa/templates/u2f.jinja2:25
+#: src/eduid_action/mfa/templates/u2f.jinja2:23
 msgid "Fake authn while testing"
 msgstr ""
 
