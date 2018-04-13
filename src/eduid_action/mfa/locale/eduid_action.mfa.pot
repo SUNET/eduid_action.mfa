@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eduid_action.mfa 0.0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-04-13 13:04+0200\n"
+"POT-Creation-Date: 2018-04-13 13:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,17 +27,15 @@ msgid "Unknown token used, please retry login"
 msgstr ""
 
 #: src/eduid_action/mfa/templates/u2f.jinja2:7
-msgid "2-step authentication"
+msgid "Two-factor authentication"
 msgstr ""
 
 #: src/eduid_action/mfa/templates/u2f.jinja2:10
-msgid "This second step verifies it's really you who is logging in"
+msgid "Extra security enabled for this account"
 msgstr ""
 
 #: src/eduid_action/mfa/templates/u2f.jinja2:13
-msgid ""
-"You must insert your security (U2F) key into an USB port in your computer, "
-"and, if it has a button, you have to tap it to log in"
+msgid "Use your Security Key to log in. If it has a button, tap it."
 msgstr ""
 
 #: src/eduid_action/mfa/templates/u2f.jinja2:23
