@@ -100,7 +100,7 @@ def check_authn_result(idp_app, user, ticket, actions):
     for this in actions:
         if isinstance(this.result, dict):
             idp_app.logger.debug('Action {} authn result: {}'.format(this, this.result))
-            if this.result.get('success', False) == True:
+            if this.result.get('success') is True:
                 kh = this.result.get('key_handle')
                 found = False
                 for cred in user.credentials.filter(U2F).to_list():
