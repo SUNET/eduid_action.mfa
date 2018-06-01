@@ -32,6 +32,7 @@
 
 __author__ = 'ft'
 
+import datetime
 from eduid_userdb.credentials import U2F
 
 
