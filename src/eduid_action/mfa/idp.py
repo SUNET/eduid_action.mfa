@@ -35,7 +35,7 @@ __author__ = 'ft'
 from eduid_userdb.credentials import U2F
 
 
-def add_mfa_actions(idp_app, user, ticket, sso_session):
+def add_mfa_actions(idp_app, user, ticket):
     """
     Add an action requiring the user to login using one or more additional
     authentication factors.
@@ -68,7 +68,7 @@ def add_mfa_actions(idp_app, user, ticket, sso_session):
                                                       )
     if existing_actions and len(existing_actions) > 0:
         idp_app.logger.debug('User has existing MFA actions - checking them')
-        check_authn_result(idp_app, user, ticket, sso_session, existing_actions)
+        check_authn_result(idp_app, user, ticket, existing_actions)
         return
 
     idp_app.logger.debug('User must authenticate with U2F token (has {} token(s))'.format(len(u2f_tokens)))
