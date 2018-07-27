@@ -32,6 +32,7 @@
 
 __author__ = 'ft'
 
+import datetime
 from eduid_userdb.credentials import U2F
 
 
@@ -53,7 +54,6 @@ def add_mfa_actions(idp_app, user, ticket):
 
     :return: None
     """
-    idp_app.logger.debug('FREDRIK: ADD MFA ACTIONS')
     u2f_tokens = user.credentials.filter(U2F).to_list()
     if not u2f_tokens:
         idp_app.logger.debug('User does not have any U2F tokens registered')
@@ -101,8 +101,17 @@ def check_authn_result(idp_app, user, ticket, actions):
     for this in actions:
         if isinstance(this.result, dict):
             idp_app.logger.debug('Action {} authn result: {}'.format(this, this.result))
-            if this.result.get('success', False):
-                idp_app.logger.debug('Removing successful MFA action')
-                idp_app.actions_db.remove_action_by_id(this.action_id)
+            if this.result.get('success') is True:
+                kh = this.result.get('key_handle')
+                found = False
+                for cred in user.credentials.filter(U2F).to_list():
+                    if cred.keyhandle == kh:
+                        found = True
+                        utc_now = datetime.datetime.utcnow().replace(tzinfo = None)  # thanks for not having timezone.utc, Python2
+                        ticket.mfa_action_creds[cred] = utc_now
+                        idp_app.logger.debug('Removing MFA action completed with {}'.format(cred))
+                        idp_app.actions_db.remove_action_by_id(this.action_id)
+                if not found:
+                    idp_app.logger.error('MFA action completed with unknown keyhandle {}'.format(kh))
         else:
             idp_app.logger.debug('Non-dict result on action {}'.format(this))
