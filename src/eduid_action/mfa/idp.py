@@ -69,8 +69,11 @@ def add_mfa_actions(idp_app, user, ticket):
                                                       )
     if existing_actions and len(existing_actions) > 0:
         idp_app.logger.debug('User has existing MFA actions - checking them')
-        check_authn_result(idp_app, user, ticket, existing_actions)
-        return
+        if check_authn_result(idp_app, user, ticket, existing_actions):
+            for this in ticket.mfa_action_creds:
+                idp_app.authn.log_authn(user, success=[this.credential_id], failure=[])
+            return
+        idp_app.logger.error('User returned without MFA credentials')
 
     idp_app.logger.debug('User must authenticate with U2F token (has {} token(s))'.format(len(u2f_tokens)))
     idp_app.actions_db.add_action(
@@ -96,22 +99,25 @@ def check_authn_result(idp_app, user, ticket, actions):
     :type ticket: eduid_idp.loginstate.SSOLoginData
     :type actions: list of eduid_userdb.actions.Action
 
-    :return: None
+    :return: MFA action with proof of completion found
+    :rtype: bool
     """
     for this in actions:
-        if isinstance(this.result, dict):
-            idp_app.logger.debug('Action {} authn result: {}'.format(this, this.result))
-            if this.result.get('success') is True:
-                kh = this.result.get('key_handle')
-                found = False
-                for cred in user.credentials.filter(U2F).to_list():
-                    if cred.keyhandle == kh:
-                        found = True
-                        utc_now = datetime.datetime.utcnow().replace(tzinfo = None)  # thanks for not having timezone.utc, Python2
-                        ticket.mfa_action_creds[cred] = utc_now
-                        idp_app.logger.debug('Removing MFA action completed with {}'.format(cred))
-                        idp_app.actions_db.remove_action_by_id(this.action_id)
-                if not found:
-                    idp_app.logger.error('MFA action completed with unknown keyhandle {}'.format(kh))
-        else:
-            idp_app.logger.debug('Non-dict result on action {}'.format(this))
+        idp_app.logger.debug('Action {} authn result: {}'.format(this, this.result))
+        if not isinstance(this.result, dict):
+            idp_app.logger.error('Non-dict result on action {}'.format(this))
+            return False
+        if this.result.get('success') is True:
+            kh = this.result.get('key_handle')
+            found = False
+            for cred in user.credentials.filter(U2F).to_list():
+                if cred.keyhandle == kh:
+                    found = True
+                    utc_now = datetime.datetime.utcnow().replace(tzinfo = None)  # thanks for not having timezone.utc, Python2
+                    ticket.mfa_action_creds[cred] = utc_now
+                    idp_app.logger.debug('Removing MFA action completed with {}'.format(cred))
+                    idp_app.actions_db.remove_action_by_id(this.action_id)
+            if not found:
+                idp_app.logger.error('MFA action completed with unknown keyhandle {}'.format(kh))
+            return found
+    return False
